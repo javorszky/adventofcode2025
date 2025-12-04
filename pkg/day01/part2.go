@@ -31,13 +31,8 @@ func calculateCoversZero(rotations []int) int {
 		blorb += newBlorb
 		fmt.Printf("-- touches: %2d, total: %4d\n\n", newBlorb, blorb)
 
-		//fmt.Printf("current: %d, rotation: %d, newBlorb: %d, allblorbs: %d\n\n", current, rotation, newBlorb, blorb)
 		current = newCurrent
 	}
-	//
-	//fmt.Printf("this is the chunked: %v\n"+
-	//	"len of original: %d\n"+
-	//	"len of chunked: %d\n", chunks, len(rotations), len(chunks))
 
 	return blorb
 }
@@ -53,24 +48,18 @@ func coversZero(current, rotation int) (int, int) {
 
 	fulls := abs(rotation / modulus)
 	remainder := abs(rotation % modulus)
-	fmt.Printf("-- fulls: %d, remainder: %d\n", fulls, remainder)
 	lower, upper := limits(current)
-	fmt.Printf("-- lower: %d, upper: %d\n", lower, upper)
 	if current != 0 {
 		if negative && remainder >= lower {
-			fmt.Printf("-- negative, and remainder %d is larger than lower: %d\n", remainder, lower)
 			fulls++
 		}
 
 		if !negative && remainder >= upper {
-			fmt.Printf("-- positive, and remainder %d is larger than or eq upper %d\n", remainder, upper)
 			fulls++
 		}
 	}
 
 	current = moduloShiftKeepInRange(current, rotation)
-
-	fmt.Printf("-- new blorbs: %d, new current: %d\n", fulls, current)
 
 	return fulls, current
 }
