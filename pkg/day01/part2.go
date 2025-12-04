@@ -56,14 +56,16 @@ func coversZero(current, rotation int) (int, int) {
 	fmt.Printf("-- fulls: %d, remainder: %d\n", fulls, remainder)
 	lower, upper := limits(current)
 	fmt.Printf("-- lower: %d, upper: %d\n", lower, upper)
-	if negative && remainder >= lower {
-		fmt.Printf("-- negative, and remainder %d is larger than lower: %d\n", remainder, lower)
-		fulls++
-	}
+	if current != 0 {
+		if negative && remainder >= lower {
+			fmt.Printf("-- negative, and remainder %d is larger than lower: %d\n", remainder, lower)
+			fulls++
+		}
 
-	if !negative && remainder >= upper {
-		fmt.Printf("-- positive, and remainder %d is larger than or eq upper %d\n", remainder, upper)
-		fulls++
+		if !negative && remainder >= upper {
+			fmt.Printf("-- positive, and remainder %d is larger than or eq upper %d\n", remainder, upper)
+			fulls++
+		}
 	}
 
 	current = moduloShiftKeepInRange(current, rotation)

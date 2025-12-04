@@ -85,6 +85,33 @@ func Test_coversZero(t *testing.T) {
 			covers:     2,
 			newCurrent: 2,
 		},
+		{
+			name: "0 - 100",
+			args: args{
+				current:  0,
+				rotation: -100,
+			},
+			covers:     1,
+			newCurrent: 0,
+		},
+		{
+			name: "0 - 200",
+			args: args{
+				current:  0,
+				rotation: -200,
+			},
+			covers:     2,
+			newCurrent: 0,
+		},
+		{
+			name: "0 - 50",
+			args: args{
+				current:  0,
+				rotation: -50,
+			},
+			covers:     0,
+			newCurrent: 50,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
