@@ -37,7 +37,7 @@ func Part1() {
 	current := 50
 	rotations, err := parseInput()
 	if err != nil {
-		log.Fatalf("Day 1 Part 1: grabbing inputs: %w", err)
+		log.Fatalf("Day 1 Part 1: grabbing inputs: %s", err)
 	}
 
 	blorb := 0

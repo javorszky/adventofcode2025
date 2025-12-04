@@ -9,5 +9,6 @@ import (
 func main() {
 	fmt.Printf("hello to advent of code 2025!")
 
-	day01.Part1()
+	//day01.Part1()
+	day01.Part2()
 }
