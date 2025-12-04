@@ -38,7 +38,7 @@ func Test_coversZero(t *testing.T) {
 				rotation: -51,
 			},
 			covers:     1,
-			newCurrent: -1,
+			newCurrent: 99,
 		},
 		{
 			name: "50 + 50",
@@ -47,7 +47,7 @@ func Test_coversZero(t *testing.T) {
 				rotation: 50,
 			},
 			covers:     1,
-			newCurrent: 100,
+			newCurrent: 0,
 		},
 		{
 			name: "50 + 851",
@@ -56,16 +56,16 @@ func Test_coversZero(t *testing.T) {
 				rotation: 851,
 			},
 			covers:     9,
-			newCurrent: 901,
+			newCurrent: 1,
 		},
 		{
-			name: "-50 + 250",
+			name: "50 + 250",
 			args: args{
-				current:  -50,
+				current:  50,
 				rotation: 250,
 			},
 			covers:     3,
-			newCurrent: 200,
+			newCurrent: 0,
 		},
 		{
 			name: "0 + 0",
@@ -77,13 +77,13 @@ func Test_coversZero(t *testing.T) {
 			newCurrent: 0,
 		},
 		{
-			name: "-99 + 201",
+			name: "1 + 201",
 			args: args{
-				current:  -99,
+				current:  1,
 				rotation: 201,
 			},
 			covers:     2,
-			newCurrent: 102,
+			newCurrent: 2,
 		},
 	}
 	for _, tt := range tests {
@@ -152,6 +152,131 @@ func Test_calculateCoversZero(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := calculateCoversZero(tt.args.rotations); got != tt.want {
 				t.Errorf("calculateCoversZero() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_moduloShiftKeepInRange(t *testing.T) {
+	type args struct {
+		initial int
+		offset  int
+	}
+	tests := []struct {
+		name        string
+		args        args
+		wantCurrent int
+	}{
+		{
+			name: "50, -50",
+			args: args{
+				initial: 50,
+				offset:  -50,
+			},
+			wantCurrent: 0,
+		},
+		{
+			name: "50, 50",
+			args: args{
+				initial: 50,
+				offset:  50,
+			},
+			wantCurrent: 0,
+		},
+		{
+			name: "50, -60",
+			args: args{
+				initial: 50,
+				offset:  -60,
+			},
+			wantCurrent: 90,
+		},
+		{
+			name: "50, 60",
+			args: args{
+				initial: 50,
+				offset:  60,
+			},
+			wantCurrent: 10,
+		},
+		{
+			name: "0, -1",
+			args: args{
+				initial: 0,
+				offset:  -1,
+			},
+			wantCurrent: 99,
+		},
+		{
+			name: "0, 1",
+			args: args{
+				initial: 0,
+				offset:  1,
+			},
+			wantCurrent: 1,
+		},
+		{
+			name: "0, -100",
+			args: args{
+				initial: 0,
+				offset:  -100,
+			},
+			wantCurrent: 0,
+		},
+		{
+			name: "0, 100",
+			args: args{
+				initial: 0,
+				offset:  100,
+			},
+			wantCurrent: 0,
+		},
+		{
+			name: "0, 101",
+			args: args{
+				initial: 0,
+				offset:  101,
+			},
+			wantCurrent: 1,
+		},
+		{
+			name: "0, -101",
+			args: args{
+				initial: 0,
+				offset:  -101,
+			},
+			wantCurrent: 99,
+		},
+		{
+			name: "99, 1",
+			args: args{
+				initial: 99,
+				offset:  1,
+			},
+			wantCurrent: 0,
+		},
+		{
+			name: "99, -99",
+			args: args{
+				initial: 99,
+				offset:  -99,
+			},
+			wantCurrent: 0,
+		},
+		{
+			name: "99, -100",
+			args: args{
+				initial: 99,
+				offset:  -100,
+			},
+			wantCurrent: 99,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := moduloShiftKeepInRange(tt.args.initial, tt.args.offset)
+			if got != tt.wantCurrent {
+				t.Errorf("moduloShiftKeepInRange() got = %v, want %v", got, tt.wantCurrent)
 			}
 		})
 	}
